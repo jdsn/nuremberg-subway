@@ -45,7 +45,7 @@ function mergestations()
 function follow()
 {
   git checkout "$2"
-  git merge "$1"
+  git merge --allow-unrelated-histories "$1"
 }
 
 #main
@@ -108,9 +108,11 @@ mkstation U1 "Bauernfeindstraße" U1
 
 mkstation U1 "Messe" U1
   mkstation U2 "Herrenhütte" U2
+    mkstation U3 "Klinikum_Nord" U3
 
 mkstation U1 "Langwasser_Nord" U1
   mkstation U2 "Ziegelstein" U2
+    mkstation U3 "Nordwestring" U3
 
 mkstation U1 "Scharfreiterring" U1
   mkstation U2 "Flughafen" U2
