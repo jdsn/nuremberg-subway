@@ -1,0 +1,120 @@
+#!/bin/bash
+#
+# Script to create a map of the Nuremberg Subway via git
+#  view the map with gitk, gitg, ...
+#
+# Author:  J. Daniel Schmidt, 2012
+# Licence: GPL-2.0
+#
+
+
+rm -rf nbg-subway
+mkdir nbg-subway
+cd nbg-subway
+git init
+
+
+function startstart()
+{
+  git symbolic-ref HEAD refs/heads/$1
+}
+
+function mkstart()
+{
+  git co --orphan $1
+}
+
+function mkstation()
+{
+  git co "$1"
+  git ci --allow-empty -m "$3: $2"
+  git tag "$2"
+  sleep 1
+}
+
+function mergestations()
+{
+  git co "$1"
+  git merge -s ours -m "$4 $3" "$1" "$2"
+  git tag "$3"
+  git co "$2"
+  git merge "$1"
+  sleep 1
+}
+
+function follow()
+{
+  git co "$2"
+  git merge "$1"
+}
+
+#main
+startstart U1
+mkstation U1 "Hardhöhe" U1
+mkstation U1 "Klinikum" U1
+mkstation U1 "Stadthalle" U1
+mkstation U1 "Rathaus" U1
+mkstation U1 "Jakobinenstraße" U1
+mkstation U1 "Stadtgrenze" U1
+mkstation U1 "Muggenhof" U1
+
+  mkstart U2
+  mkstation U2 "Röthenbach" U2
+
+mkstation U1 "Eberhardshof" U1
+  mkstation U2 "Hohe_Marter" U2
+
+mkstation U1 "Maximilianstraße" U1
+  mkstation U2 "Schweinau" U2
+    mkstart U3
+    mkstation U3 "Gustav-Adolf-Straße" U3
+
+mkstation U1 "Bärenschanze" U1
+  mkstation U2 "St._Leonhard" U2
+    mkstation U3 "Sündersbühl" U3
+
+mergestations U2 U3 "Rothenburger_Straße" "U2 U3"
+mkstation U1 "Gostenhof" U1
+  mergestations U2 U1 "Plärrer" "U1 U2 U3"
+  follow U2 U3
+
+mkstation U1 "Weißer_Turm" U1
+  mkstation U2 "Opernhaus" "U2 U3"
+  follow U2 U3
+mkstation U1 "Lorenzkirche" U1
+
+mergestations U2 U1 "Hauptbahnhof" "U1 U2 U3"
+  follow U2 U3
+
+mkstation U1 "Aufseßplatz" U1
+  mkstation U2 "Wöhrer_Wiese" "U2 U3"
+  follow U2 U3
+
+mkstation U1 "Maffeiplatz" U1
+  mkstation U2 "Rathenauplatz" "U2 U3"
+  follow U2 U3
+
+mkstation U1 "Frankenstraße" U1
+  mkstation U2 "Rennweg" U2
+    mkstation U3 "Maxfeld" U3
+
+mkstation U1 "Hasenbuck" U1
+  mkstation U2 "Schoppershof" U2
+    mkstation U3 "Kaulbach_Platz" U3
+
+mkstation U1 "Bauernfeindstraße" U1
+  mkstation U2 "Nordostbahnhof" U2
+    mkstation U3 "Friedrich-Döner-Platz" U3
+
+mkstation U1 "Messe" U1
+  mkstation U2 "Herrenhütte" U2
+
+mkstation U1 "Langwasser_Nord" U1
+  mkstation U2 "Ziegelstein" U2
+
+mkstation U1 "Scharfreiterring" U1
+  mkstation U2 "Flughafen" U2
+
+mkstation U1 "Langwasser_Mitte" U1
+mkstation U1 "Gemeinschaftshaus" U1
+mkstation U1 "Langwasser_Süd" U1
