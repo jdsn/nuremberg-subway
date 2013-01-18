@@ -7,10 +7,10 @@
 # Licence: GPL-2.0
 #
 
-
-rm -rf nbg-subway
-mkdir nbg-subway
-cd nbg-subway
+targetdir=nbg-subway-map
+rm -rf $targetdir
+mkdir $targetdir
+cd $targetdir
 git init
 
 
