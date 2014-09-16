@@ -21,30 +21,30 @@ function startstart()
 
 function mkstart()
 {
-  git co --orphan $1
+  git checkout --orphan $1
 }
 
 function mkstation()
 {
-  git co "$1"
-  git ci --allow-empty -m "$3: $2"
+  git checkout "$1"
+  git commit --allow-empty -m "$3: $2"
   git tag "$2"
   sleep 1
 }
 
 function mergestations()
 {
-  git co "$1"
+  git checkout "$1"
   git merge -s ours -m "$4 $3" "$1" "$2"
   git tag "$3"
-  git co "$2"
+  git checkout "$2"
   git merge "$1"
   sleep 1
 }
 
 function follow()
 {
-  git co "$2"
+  git checkout "$2"
   git merge "$1"
 }
 
